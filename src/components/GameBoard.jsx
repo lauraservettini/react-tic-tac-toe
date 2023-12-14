@@ -1,24 +1,5 @@
-import {useState} from 'react';
-
-const initialGameBoard = [
-    [false,false,false],
-    [false,false,false],
-    [false,false,false]
-]
-
-export default function GameBoard({changeActivePlayer, activePlayerSymbol}) {
-    const [gameBoard, setGameBoard] = useState(initialGameBoard);
-
-    function handleSelectTab(rowIndex, colIndex){
-        setGameBoard((prevGameBoard) => {
-            const updatedBoard = [...prevGameBoard.map((innerArray) => [...innerArray])];
-            updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
-            return updatedBoard;
-        });
-
-        changeActivePlayer();
-    }
-
+export default function GameBoard({changeActivePlayer, gameBoard}) {
+    
     return (
         <ol id="game-board">
             {gameBoard.map((row, rowIndex) => 
@@ -26,7 +7,7 @@ export default function GameBoard({changeActivePlayer, activePlayerSymbol}) {
                     <ol>
                         {row.map((playerSymbol, colIndex) => 
                         <li key={colIndex}>
-                            <button onClick={() => handleSelectTab(rowIndex, colIndex)}>{playerSymbol}</button>
+                            <button onClick={() => changeActivePlayer(rowIndex, colIndex)} disabled={ playerSymbol !== false ? true : false}>{playerSymbol}</button>
                         </li>)}
                     </ol>
                 </li>)}
